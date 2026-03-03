@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { createPortfolioItem, PortfolioItem } from "@/lib/supabase/portfolio";
+import { createPortfolioItem, PortfolioItem, uploadPortfolioImage } from "@/lib/supabase/portfolio";
 
 export function PortfolioItemForm() {
   const [formData, setFormData] = useState({
@@ -17,8 +17,49 @@ export function PortfolioItemForm() {
   });
 
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith("image/")) {
+      setError("Please select an image file");
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setError("Image size must be less than 5MB");
+      return;
+    }
+
+    try {
+      setUploading(true);
+      setError(null);
+
+      // Create preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+
+      // Upload to Supabase Storage
+      const imageUrl = await uploadPortfolioImage(file);
+      setFormData({ ...formData, image_url: imageUrl });
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 2000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to upload image");
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,6 +97,7 @@ export function PortfolioItemForm() {
         featured: false,
         display_order: 0,
       });
+      setImagePreview(null);
 
       setTimeout(() => {
         setSuccess(false);
@@ -132,9 +174,39 @@ export function PortfolioItemForm() {
           />
         </div>
 
+        <div className="md:col-span-2">
+          <label className="block text-sm font-medium text-slate-300 mb-2">
+            📸 Project Image (Upload from Computer)
+          </label>
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                disabled={uploading}
+                className="flex-1 bg-slate-900/50 border border-slate-700/50 rounded-lg px-4 py-2 text-slate-100 file:bg-emerald-600 file:text-white file:rounded file:border-0 file:px-3 file:py-1 file:cursor-pointer file:hover:bg-emerald-500 cursor-pointer disabled:opacity-50"
+              />
+              {uploading && <span className="text-sm text-emerald-300">Uploading...</span>}
+            </div>
+            {imagePreview && (
+              <div className="relative w-full h-48 rounded-lg overflow-hidden border border-emerald-700/50">
+                <img
+                  src={imagePreview}
+                  alt="Preview"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            )}
+            <p className="text-xs text-slate-400">
+              Max size: 5MB. Supported: JPG, PNG, WebP, GIF
+            </p>
+          </div>
+        </div>
+
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">
-            Image URL
+            Or Paste Image URL
           </label>
           <input
             type="url"

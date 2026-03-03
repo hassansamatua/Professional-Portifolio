@@ -1,5 +1,50 @@
 import { createSupabaseBrowserClient } from "./browser-client";
 
+const supabase = createSupabaseBrowserClient();
+
+// ============================================================================
+// IMAGE UPLOAD
+// ============================================================================
+
+export async function uploadPortfolioImage(file: File): Promise<string> {
+  try {
+    // Generate unique filename
+    const timestamp = Date.now();
+    const random = Math.random().toString(36).substring(7);
+    const filename = `portfolio-${timestamp}-${random}-${file.name}`;
+
+    // Upload to Supabase Storage
+    const { data, error } = await supabase.storage
+      .from("portfolio")
+      .upload(filename, file, {
+        cacheControl: "3600",
+        upsert: false,
+      });
+
+    if (error) {
+      console.error("Supabase storage error:", {
+        message: error.message,
+        name: error.name,
+      });
+      throw new Error(`Failed to upload image: ${error.message}`);
+    }
+
+    // Get public URL
+    const {
+      data: { publicUrl },
+    } = supabase.storage.from("portfolio").getPublicUrl(filename);
+
+    return publicUrl;
+  } catch (error) {
+    console.error("Error uploading portfolio image:", error instanceof Error ? error.message : error);
+    throw error;
+  }
+}
+
+// ============================================================================
+// PORTFOLIO ITEMS OPERATIONS
+// ============================================================================
+
 export interface PortfolioItem {
   id: string;
   title: string;
