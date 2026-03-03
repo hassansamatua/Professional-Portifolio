@@ -163,7 +163,7 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
-              href="mailto:contact@hansco.dev"
+              href="mailto:hanscodev@gmail.com"
               className="inline-flex items-center gap-2 px-8 py-3 rounded-lg bg-emerald-600 text-white font-semibold hover:bg-emerald-500 transition-all"
             >
               Get in Touch

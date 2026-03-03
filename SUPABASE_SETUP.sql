@@ -390,7 +390,7 @@ INSERT INTO public.admin_settings (
   'Hansco Dev',
   'Full-stack Developer | Graphic Designer | Computer Science Teacher',
   'Creating Amazing Digital Experiences',
-  'contact@hanscodev.com',
+  'hanscodev@gmail.com',
   '#10b981',
   '#0ea5e9',
   'https://github.com',
