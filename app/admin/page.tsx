@@ -35,10 +35,10 @@ export default async function AdminPage() {
             <p className="mt-2 text-slate-400">Manage your portfolio content and settings</p>
           </div>
           <Link
-            href="/dashboard"
+            href="/"
             className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-700/50 bg-slate-800/30 text-slate-300 hover:bg-slate-800/50 transition"
           >
-            ← Back to Dashboard
+            ← Back to Home
           </Link>
         </div>
 

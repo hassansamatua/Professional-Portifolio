@@ -38,10 +38,10 @@ export default function Home() {
                   Admin Panel
                 </Link>
                 <Link
-                  href="/dashboard"
+                  href="/"
                   className="px-4 py-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-500 transition font-medium text-sm"
                 >
-                  Dashboard
+                  Home
                 </Link>
               </>
             ) : (
