@@ -1,7 +1,5 @@
 import { createSupabaseBrowserClient } from "./browser-client";
 
-const supabase = createSupabaseBrowserClient();
-
 // ============================================================================
 // IMAGE UPLOAD
 // ============================================================================

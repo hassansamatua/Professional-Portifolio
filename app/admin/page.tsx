@@ -3,6 +3,8 @@ import { createSupabaseServerClient } from "@/lib/supabase/server-client";
 import { PortfolioItemForm } from "@/components/admin/PortfolioItemForm";
 import { PortfolioItemsList } from "@/components/admin/PortfolioItemsList";
 import { AdminSettingsForm } from "@/components/admin/AdminSettingsForm";
+import { TestimonialForm } from "@/components/admin/TestimonialForm";
+import { TestimonialsList } from "@/components/admin/TestimonialsList";
 import Link from "next/link";
 
 export const metadata = {
@@ -47,6 +49,9 @@ export default async function AdminPage() {
           <div className="lg:col-span-2 space-y-8">
             {/* Add Portfolio Item Form */}
             <PortfolioItemForm />
+
+            {/* Testimonials */}
+            <TestimonialForm />
 
             {/* Admin Settings */}
             <AdminSettingsForm />
@@ -122,9 +127,16 @@ export default async function AdminPage() {
         </div>
 
         {/* Portfolio Items List */}
-        <div className="mt-12">
-          <h2 className="text-2xl font-bold text-white mb-6">Portfolio Items</h2>
-          <PortfolioItemsList />
+        <div className="mt-12 space-y-10">
+          <div>
+            <h2 className="text-2xl font-bold text-white mb-6">Portfolio Items</h2>
+            <PortfolioItemsList />
+          </div>
+
+          <div>
+            <h2 className="text-2xl font-bold text-white mb-6">Testimonials</h2>
+            <TestimonialsList />
+          </div>
         </div>
       </div>
     </div>

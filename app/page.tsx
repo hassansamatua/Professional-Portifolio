@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { PortfolioGrid } from "@/components/PortfolioGrid";
+import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { useAuth } from "@/lib/supabase/auth-provider";
 
 export default function Home() {
@@ -154,6 +155,8 @@ export default function Home() {
           {/* Portfolio Grid */}
           <PortfolioGrid filter={activeFilter} />
         </section>
+
+        <TestimonialsSection />
 
         {/* CTA Section */}
         <section className="mt-20 rounded-2xl border border-emerald-700/30 bg-gradient-to-r from-emerald-900/20 to-emerald-800/10 p-12 text-center">
