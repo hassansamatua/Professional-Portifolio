@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PortfolioGrid } from "@/components/PortfolioGrid";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { useAuth } from "@/lib/supabase/auth-provider";
@@ -11,6 +11,28 @@ export default function Home() {
   const [activeFilter, setActiveFilter] = useState<"development" | "design" | "teaching" | null>(
     null
   );
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    // Initialize from localStorage or system preference
+    const stored = window.localStorage.getItem("theme");
+    if (stored === "dark" || stored === "light") {
+      setTheme(stored);
+      return;
+    }
+
+    const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches;
+    setTheme(prefersDark ? "dark" : "light");
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    window.localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const isDark = theme === "dark";
 
   const categories = [
     { id: "development", label: "Development", icon: "🔧", color: "blue" },
@@ -19,17 +41,37 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#02050b] via-[#050c1d] to-[#071426] text-slate-100">
+    <div
+      className={
+        isDark
+          ? "min-h-screen bg-gradient-to-br from-[#02050b] via-[#050c1d] to-[#071426] text-slate-100"
+          : "min-h-screen bg-gradient-to-br from-slate-50 via-slate-100 to-slate-200 text-slate-900"
+      }
+    >
       {/* Navigation */}
-      <nav className="sticky top-0 z-40 border-b border-slate-700/30 bg-[#02050b]/95 backdrop-blur-md">
+      <nav
+        className={
+          isDark
+            ? "sticky top-0 z-40 border-b border-slate-700/30 bg-[#02050b]/95 backdrop-blur-md"
+            : "sticky top-0 z-40 border-b border-slate-200/60 bg-white/90 backdrop-blur-md"
+        }
+      >
         <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between gap-6">
           <div className="flex items-center gap-3">
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-200 bg-clip-text text-transparent">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-500 to-emerald-300 bg-clip-text text-transparent">
               Hansco Dev
             </h1>
-            <p className="text-xs text-slate-400">Developer • Designer • Teacher</p>
+            <p className={isDark ? "text-xs text-slate-400" : "text-xs text-slate-600"}>
+              Developer • Designer • Teacher
+            </p>
           </div>
-          <div className="hidden md:flex items-center gap-6 text-sm text-slate-300">
+          <div
+            className={
+              isDark
+                ? "hidden md:flex items-center gap-6 text-sm text-slate-300"
+                : "hidden md:flex items-center gap-6 text-sm text-slate-700"
+            }
+          >
             <Link href="/about" className="hover:text-emerald-300 transition">
               About
             </Link>
@@ -44,6 +86,17 @@ export default function Home() {
             </Link>
           </div>
           <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setTheme(isDark ? "light" : "dark")}
+              className={
+                isDark
+                  ? "px-3 py-1 text-xs rounded-full border border-slate-700/60 text-slate-200 hover:bg-slate-800/70 transition"
+                  : "px-3 py-1 text-xs rounded-full border border-slate-300 text-slate-700 hover:bg-slate-100 transition"
+              }
+            >
+              {isDark ? "Light mode" : "Dark mode"}
+            </button>
             {user ? (
               <>
                 <Link
