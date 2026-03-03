@@ -38,7 +38,7 @@ export default function AuthCallbackPage() {
                 setIsVerifying(false);
                 // Use a small delay to ensure state updates complete
                 timeoutId = setTimeout(() => {
-                  router.push("/dashboard");
+                  router.push("/admin");
                 }, 100);
               }
               return;
@@ -68,11 +68,11 @@ export default function AuthCallbackPage() {
 
         if (data.session) {
           // Session already exists - verification was successful
-          console.log("Session already exists, redirecting to dashboard");
+          console.log("Session already exists, redirecting to admin");
           if (isComponentMounted) {
             setIsVerifying(false);
             timeoutId = setTimeout(() => {
-              router.push("/dashboard");
+              router.push("/admin");
             }, 100);
           }
           return;

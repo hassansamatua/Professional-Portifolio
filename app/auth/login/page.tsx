@@ -23,7 +23,7 @@ export default function LoginPage() {
       if (loginError) {
         setError(loginError.message);
       } else {
-        router.push("/dashboard");
+        router.push("/admin");
       }
     } catch (err) {
       setError("An unexpected error occurred");
