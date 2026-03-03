@@ -36,7 +36,6 @@ export async function getPortfolioItems() {
       console.error("Supabase error details:", {
         message: error.message,
         code: error.code,
-        status: error.status,
         hint: error.hint,
       });
       throw new Error(`Failed to fetch portfolio items: ${error.message}`);
@@ -127,7 +126,6 @@ export async function createPortfolioItem(item: Omit<PortfolioItem, "id" | "crea
       console.error("Supabase error details:", {
         message: error.message,
         code: error.code,
-        status: error.status,
         hint: error.hint,
       });
       throw new Error(`Failed to create portfolio item: ${error.message}`);
@@ -158,7 +156,6 @@ export async function updatePortfolioItem(
       console.error("Supabase error details:", {
         message: error.message,
         code: error.code,
-        status: error.status,
         hint: error.hint,
       });
       throw new Error(`Failed to update portfolio item: ${error.message}`);
@@ -181,7 +178,6 @@ export async function deletePortfolioItem(id: string) {
       console.error("Supabase error details:", {
         message: error.message,
         code: error.code,
-        status: error.status,
         hint: error.hint,
       });
       throw new Error(`Failed to delete portfolio item: ${error.message}`);
@@ -214,7 +210,6 @@ export async function getAdminSettings(): Promise<AdminSettings> {
       console.error("Supabase error details:", {
         message: error.message,
         code: error.code,
-        status: error.status,
         hint: error.hint,
       });
       throw new Error(`Failed to fetch admin settings: ${error.message}`);
@@ -245,7 +240,6 @@ export async function updateAdminSettings(settings: Partial<AdminSettings>) {
       console.error("Supabase error details:", {
         message: error.message,
         code: error.code,
-        status: error.status,
         hint: error.hint,
       });
       throw new Error(`Failed to update admin settings: ${error.message}`);
