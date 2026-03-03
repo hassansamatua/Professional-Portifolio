@@ -35,9 +35,7 @@ export function TestimonialForm() {
         rating: formData.rating || undefined,
         featured: formData.featured,
         display_order: formData.display_order,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      } as any);
+      });
 
       setSuccess(true);
       setFormData({

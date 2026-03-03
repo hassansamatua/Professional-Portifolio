@@ -22,14 +22,28 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-br from-[#02050b] via-[#050c1d] to-[#071426] text-slate-100">
       {/* Navigation */}
       <nav className="sticky top-0 z-40 border-b border-slate-700/30 bg-[#02050b]/95 backdrop-blur-md">
-        <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
-          <div>
+        <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between gap-6">
+          <div className="flex items-center gap-3">
             <h1 className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-200 bg-clip-text text-transparent">
               Hansco Dev
             </h1>
             <p className="text-xs text-slate-400">Developer • Designer • Teacher</p>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-6 text-sm text-slate-300">
+            <Link href="/about" className="hover:text-emerald-300 transition">
+              About
+            </Link>
+            <Link href="/projects" className="hover:text-emerald-300 transition">
+              Projects
+            </Link>
+            <Link href="/testimonies" className="hover:text-emerald-300 transition">
+              Testimonials
+            </Link>
+            <Link href="/contact" className="hover:text-emerald-300 transition">
+              Contact
+            </Link>
+          </div>
+          <div className="flex items-center gap-3">
             {user ? (
               <>
                 <Link
@@ -46,14 +60,12 @@ export default function Home() {
                 </Link>
               </>
             ) : (
-              <>
-                <Link
-                  href="/auth/login"
-                  className="px-4 py-2 rounded-lg border border-emerald-700/50 text-emerald-200 hover:bg-emerald-900/20 transition font-medium text-sm"
-                >
-                  Admin Login
-                </Link>
-              </>
+              <Link
+                href="/auth/login"
+                className="px-4 py-2 rounded-lg border border-emerald-700/50 text-emerald-200 hover:bg-emerald-900/20 transition font-medium text-sm"
+              >
+                Admin Login
+              </Link>
             )}
           </div>
         </div>
@@ -61,38 +73,52 @@ export default function Home() {
 
       <div className="mx-auto w-full max-w-7xl px-6 py-20">
         {/* Hero Section */}
-        <header className="mb-20 space-y-6 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-700/30 bg-emerald-900/20 px-4 py-2">
-            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <p className="text-sm text-emerald-300">Welcome to my portfolio</p>
+        <header className="mb-20 grid gap-10 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] items-center">
+          <div className="space-y-6 text-center lg:text-left">
+            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-700/30 bg-emerald-900/20 px-4 py-2">
+              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <p className="text-sm text-emerald-300">Welcome to my portfolio</p>
+            </div>
+
+            <h1 className="text-5xl md:text-6xl font-bold text-white drop-shadow-lg">
+              Creative Solutions for the{" "}
+              <span className="bg-gradient-to-r from-emerald-400 to-emerald-200 bg-clip-text text-transparent">
+                Modern Web
+              </span>
+            </h1>
+
+            <p className="mx-auto lg:mx-0 max-w-2xl text-lg text-slate-300">
+              Showcasing my expertise in full-stack development, modern design, and computer
+              science education. Building amazing digital experiences that inspire and engage.
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-4 pt-2">
+              <a
+                href="#portfolio"
+                className="inline-flex items-center gap-2 px-8 py-3 rounded-lg bg-gradient-to-r from-emerald-600 to-emerald-500 text-white font-semibold hover:from-emerald-500 hover:to-emerald-400 transition-all duration-300 shadow-lg hover:shadow-emerald-500/25"
+              >
+                View My Work
+                <span>↓</span>
+              </a>
+              {!user && (
+                <Link
+                  href="/auth/login"
+                  className="inline-flex items-center gap-2 px-8 py-3 rounded-lg border border-emerald-700/50 bg-emerald-900/20 text-emerald-200 font-semibold hover:bg-emerald-900/40 transition-all duration-300"
+                >
+                  Admin Login
+                  <span>→</span>
+                </Link>
+              )}
+            </div>
           </div>
 
-          <h1 className="text-5xl md:text-6xl font-bold text-white drop-shadow-lg">
-            Creative Solutions for the <span className="bg-gradient-to-r from-emerald-400 to-emerald-200 bg-clip-text text-transparent">Modern Web</span>
-          </h1>
-
-          <p className="mx-auto max-w-2xl text-lg text-slate-300">
-            Showcasing my expertise in full-stack development, modern design, and computer science education. 
-            Building amazing digital experiences that inspire and engage.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
-            <a
-              href="#portfolio"
-              className="inline-flex items-center gap-2 px-8 py-3 rounded-lg bg-gradient-to-r from-emerald-600 to-emerald-500 text-white font-semibold hover:from-emerald-500 hover:to-emerald-400 transition-all duration-300 shadow-lg hover:shadow-emerald-500/25"
-            >
-              View My Work
-              <span>↓</span>
-            </a>
-            {!user && (
-              <Link
-                href="/auth/login"
-                className="inline-flex items-center gap-2 px-8 py-3 rounded-lg border border-emerald-700/50 bg-emerald-900/20 text-emerald-200 font-semibold hover:bg-emerald-900/40 transition-all duration-300"
-              >
-                Admin Login
-                <span>→</span>
-              </Link>
-            )}
+          <div className="relative mx-auto lg:mx-0 h-64 w-64 md:h-72 md:w-72 rounded-full overflow-hidden border-4 border-emerald-500/60 shadow-[0_0_40px_rgba(16,185,129,0.4)] bg-slate-900/80 flex items-center justify-center">
+            <img
+              src="/profile.jpg"
+              alt="Hansco Dev portrait"
+              className="h-full w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
           </div>
         </header>
 
