@@ -1,6 +1,6 @@
 export interface NotificationData {
   id: string;
-  type: 'info' | 'success' | 'warning' | 'error';
+  type: 'info' | 'success' | 'warning' | 'error' | 'new_contact' | 'message_updated' | 'system';
   title: string;
   message: string;
   timestamp: Date;
