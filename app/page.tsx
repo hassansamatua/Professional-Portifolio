@@ -5,34 +5,34 @@ import { useEffect, useState } from "react";
 import { PortfolioGrid } from "@/components/PortfolioGrid";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { useAuth } from "@/lib/supabase/auth-provider";
+import { ThemeProvider, useTheme } from "@/components/ThemeProvider";
+import { MobileSidebar } from "@/components/MobileSidebar";
 
 export default function Home() {
   const { user } = useAuth();
   const [activeFilter, setActiveFilter] = useState<"development" | "design" | "teaching" | null>(
     null
   );
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
+  const categories = [
+    { id: "development", label: "Development", icon: "🔧", color: "blue" },
+    { id: "design", label: "Design", icon: "🎨", color: "purple" },
+    { id: "teaching", label: "Teaching", icon: "📚", color: "orange" },
+  ];
 
-    // Initialize from localStorage or system preference
-    const stored = window.localStorage.getItem("theme");
-    if (stored === "dark" || stored === "light") {
-      setTheme(stored);
-      return;
-    }
+  return (
+    <ThemeProvider>
+      <HomeContent />
+    </ThemeProvider>
+  );
+}
 
-    const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches;
-    setTheme(prefersDark ? "dark" : "light");
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    window.localStorage.setItem("theme", theme);
-  }, [theme]);
-
-  const isDark = theme === "dark";
+function HomeContent() {
+  const { user, signOut } = useAuth();
+  const { isDark, setTheme } = useTheme();
+  const [activeFilter, setActiveFilter] = useState<"development" | "design" | "teaching" | null>(
+    null
+  );
 
   const categories = [
     { id: "development", label: "Development", icon: "🔧", color: "blue" },
@@ -65,6 +65,8 @@ export default function Home() {
               Developer • Designer • Teacher
             </p>
           </div>
+          
+          {/* Desktop Navigation */}
           <div
             className={
               isDark
@@ -85,7 +87,9 @@ export default function Home() {
               Contact
             </Link>
           </div>
-          <div className="flex items-center gap-3">
+          
+          {/* Desktop Actions */}
+          <div className="hidden md:flex items-center gap-3">
             <button
               type="button"
               onClick={() => setTheme(isDark ? "light" : "dark")}
@@ -98,28 +102,44 @@ export default function Home() {
               {isDark ? "Light mode" : "Dark mode"}
             </button>
             {user ? (
-              <>
+              <div className="flex items-center gap-3">
                 <Link
                   href="/admin"
                   className="px-4 py-2 rounded-lg border border-emerald-700/50 bg-emerald-900/20 text-emerald-200 hover:bg-emerald-900/40 transition font-medium text-sm"
                 >
-                  Admin Panel
+                  Admin
                 </Link>
-                <Link
-                  href="/"
+                <button
+                  onClick={signOut}
                   className="px-4 py-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-500 transition font-medium text-sm"
                 >
-                  Home
-                </Link>
-              </>
+                  Logout
+                </button>
+              </div>
             ) : (
               <Link
                 href="/auth/login"
-                className="px-4 py-2 rounded-lg border border-emerald-700/50 text-emerald-200 hover:bg-emerald-900/20 transition font-medium text-sm"
+                className="px-4 py-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-500 transition font-medium text-sm"
               >
-                Admin Login
+                Login
               </Link>
             )}
+          </div>
+
+          {/* Mobile Sidebar */}
+          <div className="md:hidden flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setTheme(isDark ? "light" : "dark")}
+              className={
+                isDark
+                  ? "px-3 py-1 text-xs rounded-full border border-slate-700/60 text-slate-200 hover:bg-slate-800/70 transition"
+                  : "px-3 py-1 text-xs rounded-full border border-slate-300 text-slate-700 hover:bg-slate-100 transition"
+              }
+            >
+              {isDark ? "Light mode" : "Dark mode"}
+            </button>
+            <MobileSidebar user={user} onLogout={signOut} />
           </div>
         </div>
       </nav>
@@ -136,7 +156,7 @@ export default function Home() {
             <h1 className="text-5xl md:text-6xl font-bold text-white drop-shadow-lg">
               Creative Solutions for the{" "}
               <span className="bg-gradient-to-r from-emerald-400 to-emerald-200 bg-clip-text text-transparent">
-                Modern Web
+                Modern Web App
               </span>
             </h1>
 

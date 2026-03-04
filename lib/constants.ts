@@ -3,7 +3,6 @@
  */
 
 export const AUTH_ROUTES = {
-  SIGNUP: "/auth/signup",
   LOGIN: "/auth/login",
   FORGOT_PASSWORD: "/auth/forgot-password",
   RESET_PASSWORD: "/auth/reset-password",
@@ -13,7 +12,6 @@ export const AUTH_ROUTES = {
 } as const;
 
 export const PUBLIC_ROUTES = [
-  AUTH_ROUTES.SIGNUP,
   AUTH_ROUTES.LOGIN,
   AUTH_ROUTES.FORGOT_PASSWORD,
   AUTH_ROUTES.CALLBACK,

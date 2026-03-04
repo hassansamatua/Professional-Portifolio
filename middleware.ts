@@ -32,12 +32,8 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
   }
 
-  // Redirect to dashboard if already authenticated and trying to access auth pages
-  if (
-    user &&
-    (request.nextUrl.pathname === "/auth/login" ||
-      request.nextUrl.pathname === "/auth/signup")
-  ) {
+  // Redirect to dashboard if already authenticated and trying to access login page
+  if (user && request.nextUrl.pathname === "/auth/login") {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
@@ -45,5 +41,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard", "/auth/login", "/auth/signup"],
+  matcher: ["/dashboard", "/auth/login"],
 };
