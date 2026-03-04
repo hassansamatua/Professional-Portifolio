@@ -3,18 +3,10 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser-client";
-import { useTheme, ThemeProvider } from "@/components/ThemeProvider";
+import { useTheme } from "@/components/ThemeProvider";
 import Link from "next/link";
 
 export default function AdminBackupPage() {
-  return (
-    <ThemeProvider>
-      <AdminBackupContent />
-    </ThemeProvider>
-  );
-}
-
-function AdminBackupContent() {
   const { isDark, setTheme } = useTheme();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");

@@ -5,29 +5,10 @@ import { useEffect, useState } from "react";
 import { PortfolioGrid } from "@/components/PortfolioGrid";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { useAuth } from "@/lib/supabase/auth-provider";
-import { ThemeProvider, useTheme } from "@/components/ThemeProvider";
+import { useTheme } from "@/components/ThemeProvider";
 import { MobileSidebar } from "@/components/MobileSidebar";
 
 export default function Home() {
-  const { user } = useAuth();
-  const [activeFilter, setActiveFilter] = useState<"development" | "design" | "teaching" | null>(
-    null
-  );
-
-  const categories = [
-    { id: "development", label: "Development", icon: "🔧", color: "blue" },
-    { id: "design", label: "Design", icon: "🎨", color: "purple" },
-    { id: "teaching", label: "Teaching", icon: "📚", color: "orange" },
-  ];
-
-  return (
-    <ThemeProvider>
-      <HomeContent />
-    </ThemeProvider>
-  );
-}
-
-function HomeContent() {
   const { user, signOut } = useAuth();
   const { isDark, setTheme } = useTheme();
   const [activeFilter, setActiveFilter] = useState<"development" | "design" | "teaching" | null>(
